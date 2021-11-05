@@ -24,7 +24,7 @@ app.get('/users/:id', (req, res) => {
     }
 })
 
-app.post('/users', (req, res) => {
+app.post('/user', (req, res) => {
     if (!req.body.name || !req.body.email || !req.body.password) {
         res.status(400).send('Invalid data')
     }

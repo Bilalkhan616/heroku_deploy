@@ -78,15 +78,12 @@ app.put('/users/:id', (req, res) => {
 //will delete user data from the given id
 
 app.delete('/users/:id', (req, res) => {
+
     if (users[req.params.id]) {
-
-        users[req.params.id] = {};
-        if (users[req.params.id] = {}) {
-            users.filter((empObj) => !(empObj && Object.keys(empObj).length === 0))
-            res.send("users deleted");
-        }
-
+        users = users.filter((user) => { user.id !== req.params.id });
+        res.send("user deleted");
     }
+
     else {
         res.send('user not found');
     }

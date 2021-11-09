@@ -1,19 +1,32 @@
+// back-end connection
+
 import express from "express";
+import cors from "cors";
+
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3005;
 
 let users = [];
 
 app.use(express.json())
+app.use(cors());
 
 app.use((req, res, next) => {
     console.log('a request came', req.body)
     next();
 })
 
+app.get('/', (req, res) => {
+    res.send("Welcome to the server back end")
+})
+
+//will send all user data
+
 app.get('/users', (req, res) => {
     res.send(users)
 })
+
+//will get a specific user data
 
 app.get('/users/:id', (req, res) => {
     if (users[req.params.id]) {
@@ -21,8 +34,11 @@ app.get('/users/:id', (req, res) => {
     }
     else {
         res.send('user not found');
+        console.log(users);
     }
 })
+
+//will post user data to the empty array
 
 app.post('/user', (req, res) => {
     if (!req.body.name || !req.body.email || !req.body.password) {
@@ -38,6 +54,8 @@ app.post('/user', (req, res) => {
         res.send('users created');
     }
 })
+
+//will edit user data from the previously stored data
 
 app.put('/users/:id', (req, res) => {
     if (users[req.params.id]) {
@@ -57,29 +75,24 @@ app.put('/users/:id', (req, res) => {
     }
 })
 
+//will delete user data from the given id
+
 app.delete('/users/:id', (req, res) => {
     if (users[req.params.id]) {
 
         users[req.params.id] = {};
-        res.send("users deleted");
+        if (users[req.params.id] = {}) {
+            users.filter((empObj) => !(empObj && Object.keys(empObj).length === 0))
+            res.send("users deleted");
+        }
+
     }
     else {
         res.send('user not found');
     }
+
 })
 
-app.get('/', (req, res) => {
-    res.send('Welcome to the world of Node.JS');
-})
-
-// app.get('/profile', (req, res) => {
-//     res.send('This is my profile');
-// })
-
-
-// app.get('/about', (req, res) => {
-//     res.send('This is my about me');
-// })
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

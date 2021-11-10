@@ -77,19 +77,26 @@ app.put('/users/:id', (req, res) => {
 
 //will delete user data from the given id
 
-app.delete('/users/:id', (req, res) => {
+app.post('/user/delete', (req, res) => {
+    users.map((item, index) => {
+        if (item.email == req.body.email) users.splice(index, 1);
+    })
 
-    if (users[req.params.id]) {
-        users = users.filter((user) => { user.id !== req.params.id });
-        res.send("user deleted");
-    }
-
-    else {
-        res.send('user not found');
-    }
+    console.log(users);
+    res.send(users);
 
 })
 
+app.post('/user/update', (req, res) => {
+    users.map((item, index) => {
+        if (item.email == req.body.email) {
+            users.splice(index, 1, req.body.updateUserObj);
+        }
+    });
+
+    console.log(users);
+    res.send(users);
+})
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
